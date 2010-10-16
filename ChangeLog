@@ -2,3 +2,13 @@
 schwartz97 V0.0.1
 	* Initial release
 
+2010-09-11 David Luethi
+schwartz97 V0.0.2
+	* plot-method for schwartz2f-objects modified: Show confidence
+	intervals instead of mean + sd.
+	* plot-method for schwartz2f.fit-objects modified: ... -argument
+	added in callNextMethod-call
+	* User guide added as vignette.
+	* Documentation extended.
+	* Check lengths of inputs in functions 'xfutures' and 'xstate'.
+	* data-set 'futures' enhanced by underlying tickers etc.

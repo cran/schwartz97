@@ -1,6 +1,6 @@
 \name{parameter-estimation}
 \alias{fit.schwartz2f}
-\title{Schwartz 1997 two factor commodity model}
+\title{Schwartz 1997 two factor parameter estimation}
 
 % <---------------------------------------------------------------------->
 \description{
@@ -27,7 +27,7 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
 
 % <---------------------------------------------------------------------->
 \arguments{
-  \item{data}{A matrix with futures prices.}
+  \item{data}{A matrix with futures prices. \code{NA}-values are allowed.}
   \item{ttm}{A matrix with the corresponding time to maturity (see
     \bold{Details}).}
   \item{deltat}{Time increment (see \bold{Details}).}
@@ -43,8 +43,8 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
   \item{meas.sd}{Initial parameter of the standard deviation of the measurement equation (see \bold{Details}).}
   \item{lambda}{Initial value of the market price of convenience yield risk.}
   \item{opt.pars}{A logical vector giving the parameters which
-    shall be fitted. The order is as in the function header, names are
-    discarded.}
+    shall be fitted. The order is as given in the function header,
+    names are discarded.}
   \item{opt.meas.sd}{States how the standard deviation of the
     measurement equation should be treated (see \bold{Details}).}
   \item{r}{Instantaneous risk-free interest rate.}
@@ -58,15 +58,17 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
 
   Parameter estimation is statistically fragile and computationally
   demanding. Multiple local maxima of the likelihood may exist which can
-  result in absurd parameter estimates as, e.g., a yearly drift of 3 and
-  or a market price of convenience yield risk of -2. Therefore, a
-  reasonable parameter estimation is most likely an iteration where
+  result in absurd parameter estimates as, e.g., a yearly drift of 300\%
+  and or a market price of convenience yield risk of -200\%. Therefore,
+  a reasonable parameter estimation is most likely an iteration where
   several initial values are used and different combinations of
-  parameters are hold constant during estimation. Also, simulation
+  parameters are held constant during estimation. Also, simulation
   studies showed that a fairly large sample is required to get adequate
   estimates (e.g. 20000 daily observations, depending on the number of
-  parameters which shall be estimated). Several utility functions may
-  help to investigate the fit (see
+  parameters which shall be estimated). For this reason the default is
+  to hold \code{s0}, \code{delta0}, and \code{lambda} constant.
+
+  Several utility functions may help to investigate the fit (see
   e.g. \code{\link[=fitted.schwartz2f.fit]{fitted}},
   \code{\link[=resid.schwartz2f.fit]{resid}},
   \code{\link[=plot.schwartz2f.fit]{plot}},
@@ -79,6 +81,8 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
   key. Hence, the \code{\link[FKF:fkf]{fkf}} function of the package
   \code{\link[FKF:fkf]{FKF}} can be considered as the backbone of the
   estimation procedure.
+
+
   
 }
 % <---------------------------------------------------------------------->
@@ -89,26 +93,29 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
   to maturity was \code{ttm[i,j]} when it was observed (in units of
   \code{deltat}).
 
-  The time increment observation \code{data[i,j]} and \code{data[i +
-    1,j]} is denoted with \code{deltat}. Note that this specification
-  requires a regularly spaced data series.
+  The time increment between observation \code{data[i,j]} and
+    \code{data[i + 1,j]} is denoted with \code{deltat}. Note that this
+    specification requires a regularly spaced data series.
 
-  \code{opt.meas.sd} is used to determine how measurement uncertainty is
-  treated in the fit: According to the model there should be a
-  one-to-one correspondance between the spot and the futures price. In
-  reality, the term structure does not fully match for any set of
-  parameters. This is reflected in the measurement uncertainty-vector
-  \code{meas.sd}. The parameters \code{meas.sd} can be fitted. However,
-  it might be sufficient to fit only a scalar where the measurement
-  uncertainty is parametrized by \code{scalar * meas.sd}. In this case
-  set \code{opt.meas.sd} to \dQuote{scalar}. If all of \code{meas.sd}
-  should be fitted choose \dQuote{all}. If the measurement uncertainty
-  is known set \code{meas.sd} to \dQuote{none}. Note that the
-  measurement errors are assumed to be independent in this
-  implementation (even though the model and the filter do not require
-  independence).
-
-  \code{NA}-values are allowed in \code{data}.
+  \code{opt.meas.sd} specifies how measurement uncertainty is treated in
+  the fit: According to the model there should be a one-to-one
+  correspondence between the spot and the futures price. In reality, the
+  term structure does not fully match for any set of parameters. This is
+  reflected in the measurement uncertainty-vector \code{meas.sd}. All
+  components of \code{meas.sd} can be fitted. However, it might be
+  sufficient to fit only a scalar where the measurement uncertainty is
+  parametrized by \code{scalar * meas.sd}. In this case define the
+  vector \code{meas.sd} and set \code{opt.meas.sd} to
+  \dQuote{scalar}. \code{meas.sd} can be set to a vector with each
+  component set to, e.g., 2\%, giving each point in the term structure
+  equal weight. Another reasonable specification takes open interest or
+  volumes into account: The higher the volume, the higher the weight and
+  therefore the lower the corresponding component of \code{meas.sd}.  If
+  all components of \code{meas.sd} shall be fitted choose
+  \dQuote{all}. If the measurement uncertainty is known set
+  \code{meas.sd} to \dQuote{none}. Note that the measurement errors are
+  assumed to be independent in this implementation (even though the
+  model and the filter do not require independence).
 
   The model and its parameters are described in the \bold{Details}
   section of the \code{\link[=schwartz2f-class]{schwartz2f}}-class
@@ -133,8 +140,9 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
   \code{\link[=fitted.schwartz2f.fit]{fitted}},
   \code{\link[=resid.schwartz2f.fit]{resid}},
   \code{\link[=plot.schwartz2f.fit]{plot}},
-  \code{\link[=coef.schwartz2f]{coef}}).
-  \code{\link{pricefutures}}.
+  \code{\link[=coef.schwartz2f]{coef}}),
+  \code{\link{pricefutures}},
+  \code{\link{futures-data}}.
 
 }
 % <---------------------------------------------------------------------->
@@ -165,9 +173,9 @@ high.precision.fit <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 26
 
 high.precision.fit
 
-plot(high.precision.fit, type = "trace.pars")
+plot(high.precision.fit, type = "trace.pars") # ...concerning parameter evolution.
 
-## ... alpha becomes nonsensically high, kappa (speed of mean-reversion
+## Alpha becomes nonsensically high, kappa (speed of mean-reversion
 ## of the convenience yield) goes to zero. Solution: Choose different
 ## initial values and/or hold kappa constant at 1.
 
@@ -185,13 +193,12 @@ plot(constrained.fit, type = "trace.pars")
 ## The above parameters based on a fit - where kappa was held constant at 1 -
 ## look more reasonable.
 }
-
 ## These residuals should be iid standard normal
 model.resid <- resid(fit.obj, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
                      type = "filter.std")
-acf(model.resid)
+acf(model.resid, na.action = na.pass)
 par(mfrow = c(3, 2))
-apply(model.resid, 2, function(x)plot(density(x)))
+apply(model.resid, 2, function(x)plot(density(na.omit(x))))
 ## ...but are anything but iid standard normal.
 
 ## ...though the fitted values look fine:
@@ -221,9 +228,9 @@ fit.obj.2 <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
 model.resid.2 <- resid(fit.obj.2, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
                        type = "filter.std")
 ## Residuals seem to be better:
-acf(model.resid.2)
+acf(model.resid.2, na.action = na.pass)
 par(mfrow = c(3, 2))
-apply(model.resid.2, 2, function(x)plot(density(x)))
+apply(model.resid.2, 2, function(x)plot(density(na.omit(x))))
 
 
 ## The schwartz2f.fit-object 'fit.obj' can be used to do further calculations as
@@ -232,6 +239,38 @@ apply(model.resid.2, 2, function(x)plot(density(x)))
 ## expected futures price in 1.1 years.
 priceoption("put", time = 1, Time = 1.1, K = pricefutures(1.1, fit.obj),
             fit.obj)
+
+
+
+## Parameter estimation for weekly soybean meal data:
+## Get Wednesday observations:
+futures.w <- rapply(futures, function(x)x[format(as.Date(rownames(x)), "\%w") == 3,],
+                    classes = "matrix", how = "list")
+
+## Estimate soybean meal parameters (stop after 500 iterations).
+## ttm (time-to-maturity) is divided by 260 as it is in unit of days and
+## deltat = 1/52 because weekly price observations are used.
+## Estimate all measurement error standard deviations (opt.meas.sd == "all"),
+## but hold kappa, alpha, and lambda constant.
+soybean.meal.fit <- fit.schwartz2f(data = futures.w$soybean.meal$price,
+                                   ttm = futures.w$soybean.meal$ttm / 260,
+                                   opt.meas.sd = "all",
+                                   mu = 0, kappa = 1, alpha = 0.03, r = 0.04,
+                                   opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
+                                     sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
+                                     sigmaE = TRUE, rho = TRUE, lambda = FALSE),
+                                   deltat = 1 / 52, control = list(maxit = 500))
+
+soybean.meal.fit 
+
+plot(soybean.meal.fit, type = "trace.pars") # plot the parameter evolution
+
+## Plot real and predicted forward curves:
+par(mfrow = c(1, 2))
+futuresplot(futures.w$soybean.meal, type = "forward.curve")
+plot(soybean.meal.fit, type = "forward.curve", data = futures.w$soybean.meal$price,
+     ttm = futures.w$soybean.meal$ttm / 260)
+
 
 }
 

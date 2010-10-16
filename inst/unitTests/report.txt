@@ -1,0 +1,19 @@
+RUNIT TEST PROTOCOL -- Sun May 16 15:07:20 2010 
+*********************************************** 
+Number of test functions: 0 
+Number of errors: 0 
+Number of failures: 0 
+
+ 
+1 Test Suite : 
+schwartz97 unit testing - 0 test functions, 0 errors, 0 failures
+
+
+
+Details 
+*************************** 
+Test Suite: schwartz97 unit testing 
+Test function regexp: ^test.+ 
+Test file regexp: ^runit.+\.[rR]$ 
+Involved directory: 
+/home/luethid/R/Rmetrics/pkg/schwartz97/tests/../inst/unitTests 
