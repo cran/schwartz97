@@ -60,14 +60,14 @@
 % <---------------------------------------------------------------------->
 \examples{
 
-  mean(schwartz2f(mu = 0.1), time = 1)
-
-  mean(schwartz2f(mu = 0.2), time = 0:3)
-
-  vcov(schwartz2f(), time = 10)
-
-  ## Plot a schwartz2f-object including means and standard deviations
-  plot(schwartz2f(sigmaE = 0.1), n = 50, time = 5, dt = 1 / 52)
+# mean(schwartz2f(mu = 0.1), time = 1)
+# 
+# mean(schwartz2f(mu = 0.2), time = 0:3)
+# 
+# vcov(schwartz2f(), time = 10)
+# 
+# ## Plot a schwartz2f-object including means and standard deviations
+# plot(schwartz2f(sigmaE = 0.1), n = 50, time = 5, dt = 1 / 52)
 
 }
 % <---------------------------------------------------------------------->

@@ -37,11 +37,11 @@
 % <---------------------------------------------------------------------->
 \examples{
 
-object <- schwartz2f(s0 = 1, mu = 0.1, sigmaS = 0.2,
-                     delta0 = 0, kappa = 2, alpha = 0.05, sigmaE = 0.1,
-                     rho = 0.5)
-
-plot(object, n = 50, time = 2, dt = 1/52)
+# object <- schwartz2f(s0 = 1, mu = 0.1, sigmaS = 0.2,
+#                      delta0 = 0, kappa = 2, alpha = 0.05, sigmaE = 0.1,
+#                      rho = 0.5)
+# 
+# plot(object, n = 50, time = 2, dt = 1/52)
 
 }
 % <---------------------------------------------------------------------->

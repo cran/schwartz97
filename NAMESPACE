@@ -1,4 +1,4 @@
-import(graphics, stats, methods)
+import(graphics, stats, methods, RUnit, FKF, mvtnorm)
 export(fit.schwartz2f)
 export(schwartz2f)
 exportMethods("coef")

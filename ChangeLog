@@ -25,4 +25,8 @@ schwartz97 V0.0.4
 	* Compressed vignettes
 	* Require R >= 2.10 instead of 2.8
 
-
+2014-01-03 Aleksandar Spasojevic
+schwartz97 V0.0.6
+  * documentation moved to new created 'vignettes' folder 
+  * section Maintaner updated since ZHAW - Institute of Data Analysis
+  and Process Design is maintaing schwartz97 now

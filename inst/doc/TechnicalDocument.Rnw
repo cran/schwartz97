@@ -32,6 +32,7 @@ pdfstartpage={1}
 \author{Philipp Erb \and David L\"{u}thi \and Simon Otziger}
 \date{\today}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 \begin{abstract}
   The purpose of this document is to give the formulas and relations

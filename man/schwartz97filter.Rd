@@ -105,23 +105,21 @@
 }
 % <---------------------------------------------------------------------->
 \examples{
-
-data(futures)
-
-## Estimate parameters for coffee data (stop after 20 iterations)
-fit.obj <- fit.schwartz2f(futures$coffee$price, futures$coffee$ttm / 260,
-                          deltat = 1 / 260, control = list(maxit = 20))
-
-## Filter the futures data to get the spot price and the convenience yield.
-filtered <- filter.schwartz2f(futures$coffee$price, futures$coffee$ttm / 260, fit.obj)
-
-## ...and plot it.
-par(mfrow = c(2, 1))
-plot(filtered$state[,1], ylab = "Spot price", type = "l")
-lines(futures$coffee$price[,1], col = "red") # Closest to maturity futures
-plot(filtered$state[,2], ylab = "Convenience yield", type = "l")
-abline(h = 0)
-
+# data(futures)
+# 
+# ## Estimate parameters for coffee data (stop after 20 iterations)
+# fit.obj <- fit.schwartz2f(futures$coffee$price, futures$coffee$ttm / 260,
+#                           deltat = 1 / 260, control = list(maxit = 20))
+# 
+# ## Filter the futures data to get the spot price and the convenience yield.
+# filtered <- filter.schwartz2f(futures$coffee$price, futures$coffee$ttm / 260, fit.obj)
+# 
+# ## ...and plot it.
+# par(mfrow = c(2, 1))
+# plot(filtered$state[,1], ylab = "Spot price", type = "l")
+# lines(futures$coffee$price[,1], col = "red") # Closest to maturity futures
+# plot(filtered$state[,2], ylab = "Convenience yield", type = "l")
+# abline(h = 0)
 }
 
 % <---------------------------------------------------------------------->

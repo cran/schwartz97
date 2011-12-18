@@ -31,8 +31,8 @@ pdfstartpage={1}
 \title{Schwartz 1997 Two-Factor Model\\Technical Document}
 \author{Philipp Erb \and David L\"{u}thi \and Simon Otziger}
 \date{\today}
-\usepackage{Sweave}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 \begin{abstract}
   The purpose of this document is to give the formulas and relations

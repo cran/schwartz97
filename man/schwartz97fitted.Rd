@@ -56,31 +56,31 @@
 % <---------------------------------------------------------------------->
 \examples{
 
-data(futures)
-
-## Estimate parameters for lumber data. Fit only 'mu', 'sigmaS',
-## 'sigmaE', and 'rho' (and stop after 100 iterations).
-fit.obj <- fit.schwartz2f(futures$lumber$price, futures$lumber$ttm / 260,
-                          opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
-                                       sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
-                                       sigmaE = TRUE, rho = TRUE, lambda = FALSE),
-                          alpha = 0, kappa = 1.2, lambda = 0,
-                          deltat = 1 / 260, control = list(maxit = 100))
-fit.obj
-
-## Get the fitted values
-fitted.futures <- fitted(fit.obj, futures$lumber$price, futures$lumber$ttm / 260)
-
-par(mfrow = c(1, 3))
-## Plot futures prices
-plot(as.ts(futures$lumber$price), plot.type = "single", ylab = "Futures prices",
-     col = gray(seq(0.1, 0.9, length = 4)))
-## Plot fitted values
-plot(as.ts(fitted.futures), plot.type = "single", ylab = "Fitted values",
-     col = gray(seq(0.1, 0.9, length = 4)))
-## Plot relative difference
-plot(as.ts((fitted.futures - futures$lumber$price) / fitted.futures), plot.type = "single",
-     ylab = "Relative difference", col = gray(seq(0.1, 0.9, length = 4)))
+# data(futures)
+# 
+# ## Estimate parameters for lumber data. Fit only 'mu', 'sigmaS',
+# ## 'sigmaE', and 'rho' (and stop after 100 iterations).
+# fit.obj <- fit.schwartz2f(futures$lumber$price, futures$lumber$ttm / 260,
+#                           opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
+#                                        sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
+#                                        sigmaE = TRUE, rho = TRUE, lambda = FALSE),
+#                           alpha = 0, kappa = 1.2, lambda = 0,
+#                           deltat = 1 / 260, control = list(maxit = 100))
+# fit.obj
+# 
+# ## Get the fitted values
+# fitted.futures <- fitted(fit.obj, futures$lumber$price, futures$lumber$ttm / 260)
+# 
+# par(mfrow = c(1, 3))
+# ## Plot futures prices
+# plot(as.ts(futures$lumber$price), plot.type = "single", ylab = "Futures prices",
+#      col = gray(seq(0.1, 0.9, length = 4)))
+# ## Plot fitted values
+# plot(as.ts(fitted.futures), plot.type = "single", ylab = "Fitted values",
+#      col = gray(seq(0.1, 0.9, length = 4)))
+# ## Plot relative difference
+# plot(as.ts((fitted.futures - futures$lumber$price) / fitted.futures), plot.type = "single",
+#      ylab = "Relative difference", col = gray(seq(0.1, 0.9, length = 4)))
 
 }
 

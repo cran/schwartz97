@@ -61,25 +61,24 @@
 }
 % <---------------------------------------------------------------------->
 \examples{
-
-data(futures)
-
-## Estimate parameters for live.cattle data.
-## (little precision required with reltol = 1e-3)
-fit.obj <- fit.schwartz2f(futures$live.cattle$price, futures$live.cattle$ttm / 260,
-                          deltat = 1 / 260,
-                          control = list(maxit = 100, reltol = 1e-3))
-
-## Standardized residuals 
-resid.std <- resid(fit.obj, data = futures$live.cattle$price, ttm =
-                   futures$live.cattle$ttm / 260, type = "filter.std")
-acf(resid.std, na.action = na.pass) # ...are not independent
-
-## Real differences
-resid.real <- resid(fit.obj, data = futures$live.cattle$price, ttm =
-                    futures$live.cattle$ttm / 260, type = "real")
-
-plot(as.ts(resid.real / futures$live.cattle$price)) # ...are 'relatively' accurate.
+# data(futures)
+# 
+# ## Estimate parameters for live.cattle data.
+# ## (little precision required with reltol = 1e-3)
+# fit.obj <- fit.schwartz2f(futures$live.cattle$price, futures$live.cattle$ttm / 260,
+#                           deltat = 1 / 260,
+#                           control = list(maxit = 100, reltol = 1e-3))
+# 
+# ## Standardized residuals 
+# resid.std <- resid(fit.obj, data = futures$live.cattle$price, ttm =
+#                      futures$live.cattle$ttm / 260, type = "filter.std")
+# acf(resid.std, na.action = na.pass) # ...are not independent
+# 
+# ## Real differences
+# resid.real <- resid(fit.obj, data = futures$live.cattle$price, ttm =
+#                       futures$live.cattle$ttm / 260, type = "real")
+# 
+# plot(as.ts(resid.real / futures$live.cattle$price)) # ...are 'relatively' accurate.
 }
 
 % <---------------------------------------------------------------------->

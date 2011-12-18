@@ -156,121 +156,119 @@ fit.schwartz2f(data, ttm, deltat = 1 / 260,
 % <---------------------------------------------------------------------->
 \examples{
 
-data(futures)
-
-## Estimate parameters for wheat data.
-## (little precision required with reltol = 1e-3)
-fit.obj <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
-                          deltat = 1 / 260, control = list(reltol = 1e-3))
-
-## See how parameter values evolved during the fit
-plot(fit.obj, type = "trace.pars")
-
-\dontrun{
-## Do the same but with lower tolerance level:
-high.precision.fit <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
-                                     control = list(maxit = 3000, reltol = 5e-8))
-
-high.precision.fit
-
-plot(high.precision.fit, type = "trace.pars") # ...concerning parameter evolution.
-
-## Alpha becomes nonsensically high, kappa (speed of mean-reversion
-## of the convenience yield) goes to zero. Solution: Choose different
-## initial values and/or hold kappa constant at 1.
-
-constrained.fit <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
-                                  opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
-                                               sigmaS = TRUE, kappa = FALSE, alpha = TRUE, 
-                                               sigmaE = TRUE, rho = TRUE, lambda = TRUE),
-                                  alpha = 0, kappa = 1, 
-                                  control = list(maxit = 3000, reltol = 5e-8))
-
-constrained.fit
-
-plot(constrained.fit, type = "trace.pars")
-
-## The above parameters based on a fit - where kappa was held constant at 1 -
-## look more reasonable.
-}
-## These residuals should be iid standard normal
-model.resid <- resid(fit.obj, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
-                     type = "filter.std")
-acf(model.resid, na.action = na.pass)
-par(mfrow = c(3, 2))
-apply(model.resid, 2, function(x)plot(density(na.omit(x))))
-## ...but are anything but iid standard normal.
-
-## ...though the fitted values look fine:
-fitted.futures <- fitted(fit.obj, futures$wheat$price, futures$wheat$ttm / 260)
-par(mfrow = c(1, 3))
-### Plot futures prices
-plot(as.ts(futures$wheat$price), plot.type = "single", ylab = "Futures prices",
-     col = gray(seq(0.1, 0.9, length = 4)))
-## Plot fitted values
-plot(as.ts(fitted.futures), plot.type = "single", ylab = "Fitted values",
-     col = gray(seq(0.1, 0.9, length = 4)))
-## Plot relative difference
-plot(as.ts((fitted.futures - futures$wheat$price) / fitted.futures), plot.type = "single",
-     ylab = "Relative difference", col = gray(seq(0.1, 0.9, length = 4)))
-
-
-## Try with kappa = 1, alpha = 0, and flexible standard deviationss of
-## the measurement errors. Stop at 200 iterations.
-fit.obj.2 <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
-                            opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
-                                         sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
-                                         sigmaE = TRUE, rho = TRUE, lambda = TRUE),
-                            alpha = 0, kappa = 1, opt.meas.sd = "all",
-                            deltat = 1 / 260, control = list(maxit = 200))
-
-
-model.resid.2 <- resid(fit.obj.2, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
-                       type = "filter.std")
-## Residuals seem to be better:
-acf(model.resid.2, na.action = na.pass)
-par(mfrow = c(3, 2))
-apply(model.resid.2, 2, function(x)plot(density(na.omit(x))))
-
-
-## The schwartz2f.fit-object 'fit.obj' can be used to do further calculations as
-## pricing a put option on the wheat futures which matures in 1.1
-## years. The option expires in 1 year. The strike price is the
-## expected futures price in 1.1 years.
-priceoption("put", time = 1, Time = 1.1, K = pricefutures(1.1, fit.obj),
-            fit.obj)
-
-
-
-## Parameter estimation for weekly soybean meal data:
-## Get Wednesday observations:
-futures.w <- rapply(futures, function(x)x[format(as.Date(rownames(x)), "\%w") == 3,],
-                    classes = "matrix", how = "list")
-
-## Estimate soybean meal parameters (stop after 500 iterations).
-## ttm (time-to-maturity) is divided by 260 as it is in unit of days and
-## deltat = 1/52 because weekly price observations are used.
-## Estimate all measurement error standard deviations (opt.meas.sd == "all"),
-## but hold kappa, alpha, and lambda constant.
-soybean.meal.fit <- fit.schwartz2f(data = futures.w$soybean.meal$price,
-                                   ttm = futures.w$soybean.meal$ttm / 260,
-                                   opt.meas.sd = "all",
-                                   mu = 0, kappa = 1, alpha = 0.03, r = 0.04,
-                                   opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
-                                     sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
-                                     sigmaE = TRUE, rho = TRUE, lambda = FALSE),
-                                   deltat = 1 / 52, control = list(maxit = 500))
-
-soybean.meal.fit 
-
-plot(soybean.meal.fit, type = "trace.pars") # plot the parameter evolution
-
-## Plot real and predicted forward curves:
-par(mfrow = c(1, 2))
-futuresplot(futures.w$soybean.meal, type = "forward.curve")
-plot(soybean.meal.fit, type = "forward.curve", data = futures.w$soybean.meal$price,
-     ttm = futures.w$soybean.meal$ttm / 260)
-
+# data(futures)
+# 
+# ## Estimate parameters for wheat data.
+# ## (little precision required with reltol = 1e-3)
+# fit.obj <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
+#                           deltat = 1 / 260, control = list(reltol = 1e-3))
+# 
+# ## See how parameter values evolved during the fit
+# plot(fit.obj, type = "trace.pars")
+# 
+# ## Do the same but with lower tolerance level:
+# high.precision.fit <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
+#                                      control = list(maxit = 3000, reltol = 5e-8))
+# 
+# high.precision.fit
+# 
+# plot(high.precision.fit, type = "trace.pars") # ...concerning parameter evolution.
+# 
+# ## Alpha becomes nonsensically high, kappa (speed of mean-reversion
+# ## of the convenience yield) goes to zero. Solution: Choose different
+# ## initial values and/or hold kappa constant at 1.
+# 
+# constrained.fit <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
+#                                   opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
+#                                                sigmaS = TRUE, kappa = FALSE, alpha = TRUE, 
+#                                                sigmaE = TRUE, rho = TRUE, lambda = TRUE),
+#                                   alpha = 0, kappa = 1, 
+#                                   control = list(maxit = 3000, reltol = 5e-8))
+# 
+# constrained.fit
+# 
+# plot(constrained.fit, type = "trace.pars")
+# 
+# ## The above parameters based on a fit - where kappa was held constant at 1 -
+# ## look more reasonable.
+# 
+# ## These residuals should be iid standard normal
+# model.resid <- resid(fit.obj, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
+#                      type = "filter.std")
+# acf(model.resid, na.action = na.pass)
+# par(mfrow = c(3, 2))
+# apply(model.resid, 2, function(x)plot(density(na.omit(x))))
+# ## ...but are anything but iid standard normal.
+# 
+# ## ...though the fitted values look fine:
+# fitted.futures <- fitted(fit.obj, futures$wheat$price, futures$wheat$ttm / 260)
+# par(mfrow = c(1, 3))
+# ### Plot futures prices
+# plot(as.ts(futures$wheat$price), plot.type = "single", ylab = "Futures prices",
+#      col = gray(seq(0.1, 0.9, length = 4)))
+# ## Plot fitted values
+# plot(as.ts(fitted.futures), plot.type = "single", ylab = "Fitted values",
+#      col = gray(seq(0.1, 0.9, length = 4)))
+# ## Plot relative difference
+# plot(as.ts((fitted.futures - futures$wheat$price) / fitted.futures), plot.type = "single",
+#      ylab = "Relative difference", col = gray(seq(0.1, 0.9, length = 4)))
+# 
+# 
+# ## Try with kappa = 1, alpha = 0, and flexible standard deviationss of
+# ## the measurement errors. Stop at 200 iterations.
+# fit.obj.2 <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
+#                             opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
+#                                          sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
+#                                          sigmaE = TRUE, rho = TRUE, lambda = TRUE),
+#                             alpha = 0, kappa = 1, opt.meas.sd = "all",
+#                             deltat = 1 / 260, control = list(maxit = 200))
+# 
+# 
+# model.resid.2 <- resid(fit.obj.2, data = futures$wheat$price, ttm = futures$wheat$ttm / 260,
+#                        type = "filter.std")
+# ## Residuals seem to be better:
+# acf(model.resid.2, na.action = na.pass)
+# par(mfrow = c(3, 2))
+# apply(model.resid.2, 2, function(x)plot(density(na.omit(x))))
+# 
+# 
+# ## The schwartz2f.fit-object 'fit.obj' can be used to do further calculations as
+# ## pricing a put option on the wheat futures which matures in 1.1
+# ## years. The option expires in 1 year. The strike price is the
+# ## expected futures price in 1.1 years.
+# priceoption("put", time = 1, Time = 1.1, K = pricefutures(1.1, fit.obj),
+#             fit.obj)
+# 
+# 
+# 
+# ## Parameter estimation for weekly soybean meal data:
+# ## Get Wednesday observations:
+# futures.w <- rapply(futures, function(x)x[format(as.Date(rownames(x)), "\%w") == 3,],
+#                     classes = "matrix", how = "list")
+# 
+# ## Estimate soybean meal parameters (stop after 500 iterations).
+# ## ttm (time-to-maturity) is divided by 260 as it is in unit of days and
+# ## deltat = 1/52 because weekly price observations are used.
+# ## Estimate all measurement error standard deviations (opt.meas.sd == "all"),
+# ## but hold kappa, alpha, and lambda constant.
+# soybean.meal.fit <- fit.schwartz2f(data = futures.w$soybean.meal$price,
+#                                    ttm = futures.w$soybean.meal$ttm / 260,
+#                                    opt.meas.sd = "all",
+#                                    mu = 0, kappa = 1, alpha = 0.03, r = 0.04,
+#                                    opt.pars = c(s0 = FALSE, delta0 = FALSE, mu = TRUE, 
+#                                                 sigmaS = TRUE, kappa = FALSE, alpha = FALSE, 
+#                                                 sigmaE = TRUE, rho = TRUE, lambda = FALSE),
+#                                    deltat = 1 / 52, control = list(maxit = 500))
+# 
+# soybean.meal.fit 
+# 
+# plot(soybean.meal.fit, type = "trace.pars") # plot the parameter evolution
+# 
+# ## Plot real and predicted forward curves:
+# par(mfrow = c(1, 2))
+# futuresplot(futures.w$soybean.meal, type = "forward.curve")
+# plot(soybean.meal.fit, type = "forward.curve", data = futures.w$soybean.meal$price,
+#      ttm = futures.w$soybean.meal$ttm / 260)
 
 }
 

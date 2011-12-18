@@ -79,15 +79,15 @@
 % <---------------------------------------------------------------------->
 \examples{
 
-## coef-method for schwartz2f-objects:
-coef(schwartz2f())
-
-## coef-method for schwartz2f.fit-objects:
-## Estimate parameters for soybean oil (but stop after 3 iterations).
-data(futures)
-fit.obj <- fit.schwartz2f(futures$soybean.oil$price, futures$soybean.oil$ttm / 260,
-                          deltat = 1 / 260, control = list(maxit = 3))
-coef(fit.obj)
+# ## coef-method for schwartz2f-objects:
+# coef(schwartz2f())
+# 
+# ## coef-method for schwartz2f.fit-objects:
+# ## Estimate parameters for soybean oil (but stop after 3 iterations).
+# data(futures)
+# fit.obj <- fit.schwartz2f(futures$soybean.oil$price, futures$soybean.oil$ttm / 260,
+#                           deltat = 1 / 260, control = list(maxit = 3))
+# coef(fit.obj)
 
 }
 % <---------------------------------------------------------------------->

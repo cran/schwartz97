@@ -150,18 +150,18 @@ Class \dQuote{schwartz2f.fit} extends class \dQuote{schwart2factor}, directly.
 % <---------------------------------------------------------------------->
 \examples{
 
-obj <- schwartz2f() # create an object of class schwartz2f
-obj          # print it
-coef(obj)    # get coefficients 
-unclass(obj) # see the slots 
-
-## create an object of class schwartz2f.fit
-data(futures)
-fit.obj <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
-                          deltat = 1 / 260, control = list(maxit = 3))
-fit.obj          # print it
-coef(fit.obj)    # get coefficients 
-unclass(fit.obj) # see the slots 
+# obj <- schwartz2f() # create an object of class schwartz2f
+# obj          # print it
+# coef(obj)    # get coefficients 
+# unclass(obj) # see the slots 
+# 
+# ## create an object of class schwartz2f.fit
+# data(futures)
+# fit.obj <- fit.schwartz2f(futures$wheat$price, futures$wheat$ttm / 260,
+#                           deltat = 1 / 260, control = list(maxit = 3))
+# fit.obj          # print it
+# coef(fit.obj)    # get coefficients 
+# unclass(fit.obj) # see the slots 
 
 }
 % <---------------------------------------------------------------------->
